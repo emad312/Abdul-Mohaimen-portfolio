@@ -1,0 +1,4477 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="description" content="Abdul Mohaimen — clean, meaningful and high-impact digital experiences.">
+
+  <meta name="theme-color" content="#060807">
+
+  <title>Abdul Mohaimen — Digital Experiences</title>
+
+  <link rel="preload" as="image" href="images/hero-visula.png" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/project-fintrack.webp">
+  <link rel="preload" as="image" href="assets/project-nimbus.webp">
+  <link rel="preload" as="image" href="assets/project-landing.webp">
+  <link rel="preload" as="image" href="assets/project-brandflow.webp">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@500;600&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #060807;
+      --panel: #0b0e0c;
+      --text: #f2f3ef;
+      --muted: #969c95;
+      --dim: #5e655e;
+      --lime: #c8f238;
+      --line: rgba(255, 255, 255, .13);
+      --line2: rgba(200, 242, 56, .28);
+      --ease: cubic-bezier(.2, .75, .2, 1);
+      --max: 1400px;
+      --header-height: 92px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: auto;
+      scroll-padding-top: var(--header-height);
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 70% 18%,
+          rgba(200, 242, 56, .045),
+          transparent 25%),
+        var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    /* =========================================================
+       SECTION TRANSITION
+       ========================================================= */
+
+    .section-transition-curtain {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      background: linear-gradient(145deg, #0a0d0b, #c8f238);
+      transform: translateY(100%);
+      pointer-events: none;
+      transition: transform .52s var(--ease);
+    }
+
+    .section-transition-curtain.is-entering {
+      transform: translateY(0);
+    }
+
+    .section-transition-curtain.is-leaving {
+      transform: translateY(-100%);
+    }
+
+    /* =========================================================
+       GLOBAL EFFECTS
+       ========================================================= */
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      pointer-events: none;
+      opacity: .045;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+    }
+
+    .cursor-glow {
+      position: fixed;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 1;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle,
+          rgba(200, 242, 56, .06),
+          transparent 65%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 92px;
+      z-index: 1000;
+
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+
+      padding: 0 4.2vw;
+
+      background: rgba(6, 8, 7, .96);
+
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+
+      border-bottom: 1px solid rgba(255, 255, 255, .07);
+    }
+
+    .site-header.scrolled {
+      background: rgba(6, 8, 7, .72);
+    }
+
+    .brand {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -.06em;
+    }
+
+    .brand span,
+    .eyebrow,
+    .hero h1 em,
+    .section-copy h2 em,
+    .projects-copy h2 em,
+    .journal-card em,
+    .contact-heading em {
+      color: var(--lime);
+    }
+
+    .main-nav {
+      display: flex;
+      gap: 64px;
+      font-size: 15px;
+      color: #b9bdb8;
+    }
+
+    .main-nav a {
+      transition: color .25s;
+    }
+
+    .main-nav a:hover {
+      color: var(--lime);
+    }
+
+    .talk-button {
+      justify-self: end;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 14px 20px;
+      display: flex;
+      gap: 13px;
+      align-items: center;
+      font-weight: 600;
+      transition: .3s;
+    }
+
+    .talk-button i {
+      width: 9px;
+      height: 9px;
+      background: var(--lime);
+      border-radius: 50%;
+      box-shadow: 0 0 13px var(--lime);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+
+    .talk-button:hover {
+      border-color: var(--lime);
+      box-shadow: 0 0 25px rgba(200, 242, 56, .08);
+    }
+
+    .contact-nav {
+      display: none;
+      justify-self: end;
+      gap: 10px;
+    }
+
+    .contact-nav a {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 11px;
+      transition: .3s;
+    }
+
+    .contact-nav a:hover {
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+
+    .contact-icon {
+      display: grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--line2);
+      border-radius: 50%;
+      color: var(--lime);
+    }
+
+    .site-header.contact-mode {
+      grid-template-columns: 1fr auto auto;
+      gap: 18px;
+    }
+
+    .site-header.contact-mode .main-nav {
+      display: none;
+    }
+
+    .site-header.contact-mode .contact-nav {
+      display: flex;
+    }
+
+    .site-header.contact-mode .talk-button {
+      order: 3;
+    }
+
+    .mobile-menu,
+    .menu-toggle {
+      display: none;
+    }
+
+    /* =========================================================
+       COMMON SECTION
+       ========================================================= */
+
+    .section {
+      width: min(calc(100% - 8.4vw), var(--max));
+      margin: auto;
+      position: relative;
+    }
+
+    /* =========================================================
+       HERO
+       ========================================================= */
+
+    .hero {
+      position: relative;
+      width: 100%;
+      height: calc(100svh - var(--header-height));
+      min-height: 650px;
+      margin-top: var(--header-height);
+
+      display: grid;
+      grid-template-columns: 47% 53%;
+
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .hero-copy {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 0 30px 40px 6vw;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: .2em;
+      font-weight: 700;
+      margin: 0 0 27px;
+    }
+
+    .hero h1 {
+      font-size: clamp(70px, 7vw, 116px);
+      line-height: .87;
+      letter-spacing: -.07em;
+      margin: 0 0 45px;
+      font-weight: 600;
+    }
+
+    .hero h1 em,
+    .section-copy h2 em,
+    .projects-copy h2 em {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+      letter-spacing: -.06em;
+    }
+
+    .hero-description {
+      max-width: 550px;
+      color: #b7bcb6;
+      font-size: 16px;
+      line-height: 1.55;
+      margin-bottom: 32px;
+    }
+
+    .hero-description strong {
+      color: #e9ebe6;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .pill-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 26px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 13px 17px 13px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: .3s;
+    }
+
+    .pill-button span {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(200, 242, 56, .12);
+      color: var(--lime);
+    }
+
+    .pill-button:hover {
+      border-color: var(--lime);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(200, 242, 56, .08);
+    }
+
+    .text-link {
+      font-size: 12px;
+      color: #d0d3cd;
+      display: inline-flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .text-link span {
+      width: 25px;
+      height: 25px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+    }
+
+    .hero-visual {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      z-index: 1;
+      isolation: isolate;
+    }
+
+    .portrait-wrap {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+
+      overflow: hidden;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .portrait-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 8% 6% 0 10%;
+
+      background:
+        radial-gradient(circle at 52% 50%,
+          rgba(200, 242, 56, .16),
+          transparent 45%);
+
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .hero-person {
+      position: relative;
+      display: block;
+
+      width: auto;
+      height: 100%;
+
+      max-width: 100%;
+      max-height: 100%;
+
+      object-fit: contain;
+      object-position: center bottom;
+
+      z-index: 1;
+
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      will-change: transform;
+    }
+
+    .hero-arc {
+      position: absolute;
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      overflow: visible;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .hero-arc path {
+      fill: none;
+      stroke: none;
+      visibility: hidden;
+    }
+
+    .hero-arc text {
+      fill: #747b73;
+      font-size: 11px;
+      letter-spacing: 4px;
+      font-weight: 500;
+    }
+
+    .hero-dots {
+      position: absolute;
+      right: 2.7%;
+      top: 43%;
+
+      display: grid;
+      gap: 13px;
+
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .hero-dots i {
+      display: block;
+      width: 7px;
+      height: 7px;
+      border: 1px solid #697068;
+      border-radius: 50%;
+    }
+
+    .hero-dots .active {
+      background: var(--lime);
+      border-color: var(--lime);
+      box-shadow: 0 0 12px rgba(200, 242, 56, .7);
+    }
+
+    .experience-card {
+      position: absolute;
+      right: 0;
+      bottom: 9%;
+
+      width: 148px;
+      padding: 17px 19px;
+      box-sizing: border-box;
+
+      border: 1px solid var(--line);
+      border-radius: 15px;
+
+      background: rgba(6, 8, 7, .55);
+
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+
+      z-index: 20;
+      isolation: isolate;
+      pointer-events: none;
+
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    .experience-card strong {
+      display: block;
+      color: var(--lime);
+      font-size: 40px;
+      line-height: 1;
+      font-weight: 600;
+    }
+
+    .experience-card span {
+      display: block;
+      margin-top: 7px;
+      color: #a4aaa2;
+      font-size: 10px;
+      line-height: 1.35;
+    }
+
+    /* =========================================================
+       RESTORED PHILOSOPHY SECTION
+       ========================================================= */
+
+    .philosophy {
+      /*
+       * Two-column desktop architecture:
+       * the copy occupies the left side and the restored
+       * animated 3D composition occupies the right side.
+       */
+      min-height: 720px;
+
+      display: grid;
+      grid-template-columns: 42% 58%;
+      align-items: center;
+
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .section-copy {
+      padding: 95px 0 75px 1.4vw;
+    }
+
+    .section-copy h2,
+    .projects-copy h2 {
+      font-size: 46px;
+      line-height: .98;
+      letter-spacing: -.055em;
+      margin: 0 0 24px;
+      font-weight: 500;
+    }
+
+    .section-copy>p:not(.eyebrow),
+    .projects-copy>p:not(.eyebrow) {
+      color: #929991;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, 150px);
+      gap: 12px;
+      margin-top: 35px;
+      width: 100%;
+    }
+
+    .principle-icon {
+      display: grid;
+      place-items: center;
+      width: 23px;
+      height: 23px;
+      color: var(--lime);
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+
+    .principle h3 {
+      font-size: 12px;
+      margin: 0 0 10px;
+      font-weight: 600;
+    }
+
+    .principle p {
+      font-size: 10px !important;
+      line-height: 1.55 !important;
+      color: #70776f !important;
+      max-width: 150px;
+    }
+
+    .philosophy .principle .philosophy-image {
+      display: block;
+      width: 23px;
+      height: 23px;
+      max-width: 23px;
+      max-height: 23px;
+      object-fit: contain;
+      object-position: center;
+      margin: 0 0 16px;
+    }
+
+    /* =========================================================
+       PHILOSOPHY 3D STAGE
+       ========================================================= */
+
+    .philosophy-stage {
+      position: relative;
+
+      /*
+       * Provides the 3D coordinate space used by the
+       * glass stack, orbit rings and floating objects.
+       */
+      min-height: 620px;
+
+      perspective: 1100px;
+      overflow: hidden;
+
+      isolation: isolate;
+    }
+
+    /* =========================================================
+       PHILOSOPHY ORBIT RINGS
+       ========================================================= */
+
+    .stage-orbit {
+      position: absolute;
+
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 50%;
+
+      transform-style: preserve-3d;
+
+      left: 53%;
+      top: 50%;
+
+      pointer-events: none;
+    }
+
+    .stage-orbit-1 {
+      width: 570px;
+      height: 300px;
+
+      transform:
+        translate(-50%, -50%) rotateX(66deg) rotateZ(-8deg);
+
+      animation:
+        orbitSlow 18s linear infinite;
+    }
+
+    .stage-orbit-2 {
+      width: 450px;
+      height: 230px;
+
+      transform:
+        translate(-50%, -50%) rotateX(66deg) rotateZ(12deg);
+
+      border-color: rgba(200, 242, 56, .12);
+
+      animation:
+        orbitSlowReverse 14s linear infinite;
+    }
+
+    /* =========================================================
+       3D GLASS STACK
+       ========================================================= */
+
+    .glass-stack {
+      position: absolute;
+
+      width: 560px;
+      height: 430px;
+
+      left: 49%;
+      top: 49%;
+
+      transform:
+        translate(-50%, -50%) rotateY(-10deg) rotateZ(-7deg);
+
+      transform-style: preserve-3d;
+
+      transition: transform .75s var(--ease);
+    }
+
+    .glass-panel {
+      position: absolute;
+
+      width: 420px;
+      height: 285px;
+
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 20px;
+
+      background:
+        linear-gradient(135deg,
+          rgba(255, 255, 255, .08),
+          rgba(255, 255, 255, .025));
+
+      backdrop-filter: blur(4px);
+
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, .25),
+        inset 0 1px rgba(255, 255, 255, .1);
+    }
+
+    .panel-back {
+      left: 75px;
+      top: 18px;
+
+      transform:
+        translateZ(-80px) rotateZ(-2deg);
+
+      opacity: .52;
+    }
+
+    .panel-mid {
+      left: 30px;
+      top: 80px;
+
+      transform:
+        translateZ(-30px) rotateZ(-1deg);
+
+      opacity: .66;
+    }
+
+    .panel-front {
+      left: 90px;
+      top: 130px;
+
+      transform:
+        translateZ(20px);
+
+      opacity: .76;
+    }
+
+    /* =========================================================
+       FLOATING IMPACT PLATFORM
+       ========================================================= */
+
+    .impact-platform {
+      position: absolute;
+
+      width: 320px;
+      height: 125px;
+
+      left: 95px;
+      top: 270px;
+
+      border: 1px solid rgba(255, 255, 255, .09);
+
+      background:
+        linear-gradient(180deg,
+          rgba(200, 242, 56, .12),
+          rgba(255, 255, 255, .025));
+
+      transform:
+        rotateX(68deg) translateZ(50px);
+
+      border-radius: 20px;
+
+      box-shadow:
+        0 0 50px rgba(200, 242, 56, .08);
+
+      animation:
+        platformFloat 4.5s ease-in-out infinite;
+    }
+
+    .impact-platform span {
+      position: absolute;
+      inset: 0;
+
+      background:
+        radial-gradient(ellipse at center,
+          rgba(200, 242, 56, .2),
+          transparent 60%);
+
+      filter: blur(12px);
+    }
+
+    /* =========================================================
+       FLOATING IMPACT ORB
+       ========================================================= */
+
+    .impact-orb {
+      position: absolute;
+
+      width: 38px;
+      height: 38px;
+
+      left: 270px;
+      top: 105px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(circle at 35% 30%,
+          #f3ffc5,
+          #c8f238 38%,
+          rgba(200, 242, 56, .08) 75%);
+
+      box-shadow:
+        0 0 28px rgba(200, 242, 56, .5);
+
+      transform: translateZ(80px);
+
+      animation:
+        orbFloat 3.8s ease-in-out infinite;
+    }
+
+    /* =========================================================
+       PHILOSOPHY STAGE LABELS
+       ========================================================= */
+
+    .stage-label {
+      position: absolute;
+
+      left: 4%;
+
+      font-size: 11px;
+      color: #717870;
+
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      z-index: 4;
+
+      white-space: nowrap;
+    }
+
+    .stage-label::after {
+      content: "";
+
+      height: 1px;
+      width: 150px;
+
+      background:
+        linear-gradient(90deg,
+          rgba(255, 255, 255, .25),
+          transparent);
+    }
+
+    .label-strategy {
+      top: 19%;
+    }
+
+    .label-design {
+      top: 36%;
+    }
+
+    .label-experience {
+      top: 55%;
+    }
+
+    .label-impact {
+      top: 75%;
+      color: var(--lime);
+    }
+
+    .label-impact::after {
+      background:
+        linear-gradient(90deg,
+          rgba(200, 242, 56, .4),
+          transparent);
+    }
+
+    /* =========================================================
+       PROJECTS
+       ========================================================= */
+
+    .projects {
+      min-height: 720px;
+
+      display: grid;
+      grid-template-columns: 35% 65%;
+      align-items: center;
+
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .projects-copy {
+      padding-left: 1.4vw;
+      z-index: 5;
+    }
+
+    .projects-copy .text-link {
+      margin-top: 28px;
+    }
+
+    .project-orbit {
+      height: 650px;
+
+      position: relative;
+      cursor: default;
+
+      perspective: 1100px;
+      transform-style: preserve-3d;
+
+      overflow: hidden;
+
+      --orbit-rx: 275px;
+      --orbit-ry: 190px;
+    }
+
+    .orbit-ring {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 50%;
+
+      transform:
+        translate(-50%, -50%) rotateX(70deg);
+
+      animation: none;
+
+      pointer-events: none;
+    }
+
+    .r1 {
+      width: 280px;
+      height: 280px;
+    }
+
+    .r2 {
+      width: 430px;
+      height: 430px;
+    }
+
+    .r3 {
+      width: 590px;
+      height: 590px;
+      border-style: dashed;
+    }
+
+    .project-orbit.is-hovered .orbit-ring {
+      border-color: rgba(200, 242, 56, .18);
+
+      box-shadow:
+        0 0 30px rgba(200, 242, 56, .04);
+    }
+
+    .orbit-track {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      width: 550px;
+      height: 380px;
+
+      transform:
+        translate(-50%, -50%) rotateX(64deg);
+
+      border: 1px solid rgba(200, 242, 56, .10);
+      border-radius: 50%;
+
+      pointer-events: none;
+    }
+
+    .orbit-core {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      width: 132px;
+      height: 132px;
+
+      transform: translate(-50%, -50%);
+
+      border-radius: 50%;
+
+      border: 1px solid rgba(200, 242, 56, .55);
+
+      background:
+        radial-gradient(circle at 38% 32%,
+          rgba(200, 242, 56, .18),
+          rgba(0, 0, 0, .92) 68%);
+
+      box-shadow:
+        0 0 45px rgba(200, 242, 56, .12);
+
+      display: grid;
+      place-items: center;
+
+      z-index: 30;
+
+      transition:
+        box-shadow .35s,
+        transform .5s var(--ease);
+
+      pointer-events: none;
+    }
+
+    .orbit-core span {
+      width: 25px;
+      height: 25px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(circle at 32% 28%,
+          #f1ffc4,
+          #c8f238 42%,
+          rgba(200, 242, 56, .15) 75%);
+
+      box-shadow:
+        0 0 30px rgba(200, 242, 56, .5);
+
+      animation:
+        corePulse 2.8s ease-in-out infinite;
+    }
+
+    .project-orbit.is-hovered .orbit-core {
+      box-shadow:
+        0 0 75px rgba(200, 242, 56, .24);
+
+      transform:
+        translate(-50%, -50%) scale(1.04);
+    }
+
+    .project-orbit-cards {
+      position: absolute;
+      inset: 0;
+
+      transform-style: preserve-3d;
+      pointer-events: none;
+    }
+
+    .project-card {
+      position: absolute;
+
+      left: 50%;
+      top: 50%;
+
+      width: 230px;
+      height: 170px;
+
+      padding: 15px;
+
+      border: 1px solid rgba(255, 255, 255, .14);
+      border-radius: 15px;
+
+      background: rgba(10, 13, 12, .72);
+
+      backdrop-filter: blur(10px);
+
+      box-shadow:
+        0 20px 50px rgba(0, 0, 0, .35);
+
+      transition:
+        border-color .3s,
+        box-shadow .3s,
+        filter .35s;
+
+      transform-style: preserve-3d;
+
+      pointer-events: auto;
+
+      will-change: transform, opacity;
+
+      transform-origin: center;
+    }
+
+    .project-card:hover {
+      border-color: rgba(200, 242, 56, .45);
+
+      box-shadow:
+        0 25px 60px rgba(0, 0, 0, .5),
+        0 0 30px rgba(200, 242, 56, .07);
+    }
+
+    .project-card span {
+      display: block;
+
+      font-size: 10px;
+      line-height: 1.25;
+
+      color: #eef0eb;
+    }
+
+    .project-card b {
+      font-weight: 500;
+      color: #aeb4ac;
+    }
+
+    .project-card img {
+      width: 100%;
+      height: 100px;
+
+      object-fit: contain;
+
+      display: block;
+
+      margin-top: 9px;
+    }
+
+    .project-card.is-front {
+      filter: brightness(1.06);
+    }
+
+    .project-card.is-back {
+      filter: brightness(.70);
+      opacity: .72;
+    }
+
+    /* =========================================================
+       PROJECT HANDOFF
+       ========================================================= */
+
+    .project-handoff {
+      position: relative;
+
+      min-height: 90vh;
+
+      display: grid;
+      place-items: center;
+
+      overflow: hidden;
+
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+
+      background:
+        radial-gradient(circle at 50% 45%,
+          rgba(200, 242, 56, .05),
+          transparent 38%);
+    }
+
+    .project-handoff-inner {
+      width: min(980px, 92%);
+
+      position: relative;
+
+      transform:
+        translateY(90px) scale(.92);
+
+      opacity: 0;
+
+      transition:
+        transform .9s var(--ease),
+        opacity .8s var(--ease);
+    }
+
+    .project-handoff.is-visible .project-handoff-inner {
+      transform:
+        translateY(0) scale(1);
+
+      opacity: 1;
+    }
+
+    .project-handoff-media {
+      position: relative;
+
+      width: min(760px, 100%);
+
+      margin: 0 auto;
+
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 24px;
+
+      overflow: hidden;
+
+      background: #0a0d0b;
+
+      box-shadow:
+        0 40px 100px rgba(0, 0, 0, .45);
+    }
+
+    .project-handoff-media img {
+      display: block;
+
+      width: 100%;
+      height: 460px;
+
+      object-fit: cover;
+
+      transition:
+        transform 1.1s var(--ease);
+    }
+
+    .project-handoff:hover .project-handoff-media img {
+      transform: scale(1.035);
+    }
+
+    .project-handoff-copy {
+      display: flex;
+
+      justify-content: space-between;
+      gap: 35px;
+
+      align-items: end;
+
+      margin-top: 22px;
+    }
+
+    .project-handoff-copy h3 {
+      font-size: clamp(34px, 4vw, 62px);
+      line-height: .9;
+      letter-spacing: -.06em;
+
+      margin: 0;
+
+      font-weight: 500;
+    }
+
+    .project-handoff-copy p {
+      max-width: 340px;
+
+      color: #929991;
+
+      font-size: 12px;
+      line-height: 1.6;
+
+      margin: 0;
+    }
+
+    .project-handoff-tag {
+      color: var(--lime);
+
+      font-size: 10px;
+
+      letter-spacing: .18em;
+
+      font-weight: 700;
+
+      margin-bottom: 12px;
+    }
+
+    /* =========================================================
+       PROJECT MODAL
+       ========================================================= */
+
+    #project-modal-image {
+      opacity: 1;
+      transition: opacity .25s ease;
+    }
+
+    .project-modal {
+      position: fixed;
+      inset: 0;
+
+      z-index: 80;
+
+      display: grid;
+      place-items: center;
+
+      padding: 30px;
+
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+
+      transition:
+        opacity .35s ease,
+        visibility .35s ease;
+    }
+
+    .project-modal.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .project-modal-backdrop {
+      position: absolute;
+      inset: 0;
+
+      background: rgba(3, 5, 4, .82);
+
+      backdrop-filter: blur(14px);
+    }
+
+    .project-modal-card {
+      position: relative;
+
+      width: min(1080px, 94vw);
+      max-height: 88vh;
+
+      overflow: hidden;
+
+      border: 1px solid rgba(255, 255, 255, .13);
+      border-radius: 26px;
+
+      background:
+        linear-gradient(145deg,
+          #101410,
+          #080b09);
+
+      box-shadow:
+        0 40px 120px rgba(0, 0, 0, .6);
+
+      transform:
+        translateY(60px) scale(.96);
+
+      transition:
+        transform .7s var(--ease);
+    }
+
+    .project-modal.open .project-modal-card {
+      transform:
+        translateY(0) scale(1);
+    }
+
+    .project-modal-top {
+      padding: 42px 48px 25px;
+
+      min-height: 180px;
+
+      display: flex;
+
+      align-items: end;
+      justify-content: space-between;
+
+      gap: 30px;
+    }
+
+    .project-modal-top h2 {
+      font-size: clamp(46px, 7vw, 92px);
+      line-height: .82;
+      letter-spacing: -.07em;
+
+      margin: 0;
+
+      font-weight: 500;
+    }
+
+    .project-modal-top h2 em {
+      font-family: 'Playfair Display', serif;
+      color: var(--lime);
+      font-weight: 500;
+    }
+
+    .project-modal-close {
+      width: 42px;
+      height: 42px;
+
+      border-radius: 50%;
+
+      border: 1px solid var(--line);
+
+      background: none;
+
+      color: #ddd;
+
+      cursor: pointer;
+
+      font-size: 22px;
+
+      align-self: start;
+    }
+
+    .project-detail-sheet {
+      position: relative;
+
+      padding: 26px 48px 42px;
+
+      border-top:
+        1px solid rgba(255, 255, 255, .09);
+
+      transform: translateY(100%);
+
+      transition:
+        transform .8s .16s var(--ease);
+
+      background:
+        linear-gradient(180deg,
+          rgba(255, 255, 255, .035),
+          rgba(200, 242, 56, .025));
+    }
+
+    .project-modal.open .project-detail-sheet {
+      transform: translateY(0);
+    }
+
+    .project-detail-grid {
+      display: grid;
+
+      grid-template-columns: 1.1fr .9fr;
+
+      gap: 40px;
+
+      align-items: start;
+    }
+
+    .project-detail-grid img {
+      width: 100%;
+      height: 260px;
+
+      object-fit: cover;
+
+      border-radius: 16px;
+
+      border:
+        1px solid rgba(255, 255, 255, .1);
+
+      background: #070a08;
+    }
+
+    .project-detail-grid p {
+      color: #9aa199;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+
+      margin: 0;
+    }
+
+    .project-detail-grid h3 {
+      font-size: 14px;
+
+      margin: 0 0 10px;
+    }
+
+    .project-detail-meta {
+      display: flex;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+
+      margin-top: 18px;
+    }
+
+    .project-detail-meta span {
+      font-size: 9px;
+
+      padding: 7px 10px;
+
+      border: 1px solid var(--line);
+
+      border-radius: 999px;
+
+      color: #aeb4ac;
+    }
+
+    /* =========================================================
+       JOURNAL
+       ========================================================= */
+
+    .journal {
+      padding: 80px 0;
+    }
+
+    .journal-card {
+      border: 1px solid var(--line);
+
+      border-radius: 20px;
+
+      padding: 42px 52px;
+
+      display: flex;
+
+      justify-content: space-between;
+      align-items: center;
+
+      background:
+        linear-gradient(110deg,
+          rgba(255, 255, 255, .035),
+          rgba(200, 242, 56, .025));
+    }
+
+    .journal-card h2 {
+      font-size: 46px;
+      line-height: 1;
+
+      margin: 0;
+
+      letter-spacing: -.05em;
+
+      font-weight: 500;
+    }
+
+    .journal-card em {
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* =========================================================
+       CONTACT
+       ========================================================= */
+
+    .contact {
+      padding-top: 0;
+    }
+
+    .contact-panel {
+      border: 1px solid var(--line);
+
+      border-radius: 18px;
+
+      padding: 44px 52px;
+
+      display: grid;
+
+      grid-template-columns: 1fr 180px 1fr;
+
+      align-items: center;
+
+      background:
+        radial-gradient(circle at 50% 55%,
+          rgba(200, 242, 56, .07),
+          transparent 32%),
+        rgba(255, 255, 255, .025);
+    }
+
+    .contact-heading h2 {
+      font-size: 42px;
+
+      line-height: .98;
+
+      letter-spacing: -.05em;
+
+      margin: 0 0 12px;
+
+      font-weight: 500;
+    }
+
+    .contact-heading em {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+    }
+
+    .connect-orb {
+      justify-self: center;
+
+      width: 92px;
+      height: 92px;
+
+      border-radius: 50%;
+
+      background:
+        radial-gradient(circle at 32% 28%,
+          rgba(245, 255, 210, .8),
+          rgba(200, 242, 56, .25) 25%,
+          rgba(0, 0, 0, .65) 72%);
+
+      border:
+        1px solid rgba(200, 242, 56, .45);
+
+      box-shadow:
+        0 0 45px rgba(200, 242, 56, .17);
+
+      animation:
+        orbFloat 4.2s ease-in-out infinite;
+    }
+
+    .contact-copy {
+      justify-self: end;
+      max-width: 270px;
+    }
+
+    .contact-copy p {
+      font-size: 11px;
+
+      line-height: 1.55;
+
+      color: #949b93;
+
+      margin-bottom: 18px;
+    }
+
+    .stay-connected {
+      margin: 24px 0 22px;
+
+      padding: 18px 25px;
+
+      border-top:
+        1px solid rgba(255, 255, 255, .08);
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 20px;
+    }
+
+    .stay-visual {
+      width: 80px;
+      height: 58px;
+
+      display: grid;
+      place-items: center;
+
+      overflow: hidden;
+    }
+
+    .stay-visual img {
+      width: 90px;
+      height: 70px;
+
+      object-fit: contain;
+
+      filter:
+        saturate(.95) drop-shadow(0 0 10px rgba(200, 242, 56, .15));
+
+      mix-blend-mode: screen;
+
+      animation:
+        stayFloat 4s ease-in-out infinite;
+    }
+
+    .social-links {
+      margin-left: auto;
+
+      display: flex;
+
+      gap: 10px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+
+      border: 1px solid var(--line);
+
+      border-radius: 50%;
+
+      display: grid;
+      place-items: center;
+
+      font-size: 13px;
+
+      transition: .3s;
+    }
+
+    .social-links a:hover {
+      color: var(--lime);
+
+      border-color: var(--lime);
+
+      transform: translateY(-3px);
+    }
+
+    /* =========================================================
+       FOOTER WORD
+       ========================================================= */
+
+    .footer-word-reveal {
+      position: relative;
+
+      min-height: 70vh;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
+
+      border-top:
+        1px solid rgba(255, 255, 255, .08);
+
+      border-bottom:
+        1px solid rgba(255, 255, 255, .08);
+    }
+
+    .footer-word-stack {
+      display: flex;
+
+      flex-direction: column;
+
+      align-items: center;
+
+      line-height: .82;
+
+      letter-spacing: -.075em;
+
+      font-size: clamp(58px, 10vw, 150px);
+
+      font-weight: 600;
+
+      text-align: center;
+    }
+
+    .footer-word {
+      display: block;
+
+      transform: translateY(100%);
+
+      opacity: 0;
+
+      transition:
+        transform .8s var(--ease),
+        opacity .7s ease;
+    }
+
+    .footer-word-reveal.is-visible .footer-word {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .footer-word:nth-child(2) {
+      transition-delay: .08s;
+    }
+
+    .footer-word:nth-child(3) {
+      transition-delay: .16s;
+    }
+
+    .footer-word:nth-child(4) {
+      transition-delay: .24s;
+    }
+
+    .footer-word:nth-child(5) {
+      transition-delay: .32s;
+    }
+
+    .footer-word em {
+      font-family: 'Playfair Display', serif;
+
+      color: var(--lime);
+
+      font-weight: 500;
+    }
+
+    .footer-word-small {
+      font-size: .58em;
+    }
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
+    .site-footer {
+      width: min(calc(100% - 8.4vw), var(--max));
+
+      margin: auto;
+
+      padding: 0 25px 25px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      color: #626a62;
+
+      font-size: 9px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .footer-links button {
+      background: none;
+
+      border: 0;
+
+      padding: 0;
+
+      color: #747b73;
+
+      cursor: pointer;
+    }
+
+    .footer-links button:hover {
+      color: var(--lime);
+    }
+
+    /* =========================================================
+       GENERIC MODAL
+       ========================================================= */
+
+    .modal {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 100;
+
+      display: grid;
+
+      place-items: center;
+
+      padding: 25px;
+    }
+
+    .modal[hidden] {
+      display: none;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+
+      inset: 0;
+
+      background: rgba(0, 0, 0, .78);
+
+      backdrop-filter: blur(12px);
+    }
+
+    .modal-card {
+      position: relative;
+
+      width: min(680px, 100%);
+
+      max-height: 85vh;
+
+      overflow: auto;
+
+      padding: 40px;
+
+      border: 1px solid var(--line);
+
+      border-radius: 18px;
+
+      background: #0a0d0c;
+
+      box-shadow:
+        0 30px 100px rgba(0, 0, 0, .6);
+
+      z-index: 1;
+    }
+
+    .modal-card h2 {
+      font-size: 38px;
+
+      letter-spacing: -.04em;
+
+      margin: 0 0 20px;
+    }
+
+    .modal-card h3 {
+      font-size: 13px;
+
+      margin: 24px 0 7px;
+    }
+
+    .modal-card p {
+      font-size: 12px;
+
+      color: #a6aba4;
+
+      line-height: 1.7;
+    }
+
+    .modal-close {
+      position: absolute;
+
+      right: 17px;
+      top: 12px;
+
+      border: 0;
+
+      background: none;
+
+      font-size: 28px;
+
+      color: #9ba09a;
+
+      cursor: pointer;
+    }
+
+    .legal-note {
+      font-size: 10px !important;
+
+      color: #6e736d !important;
+
+      margin-top: 28px;
+    }
+
+    /* =========================================================
+       REVEALS
+       ========================================================= */
+
+    .reveal {
+      opacity: 0;
+
+      transform: translateY(28px);
+
+      transition:
+        opacity .9s var(--ease),
+        transform .9s var(--ease);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    .reveal-delay-1 {
+      transition-delay: .12s;
+    }
+
+    /* =========================================================
+       ANIMATIONS
+       ========================================================= */
+
+    @keyframes platformFloat {
+
+      0%,
+      100% {
+        transform:
+          rotateX(68deg) translateZ(50px) translateY(0);
+      }
+
+      50% {
+        transform:
+          rotateX(68deg) translateZ(50px) translateY(-9px);
+      }
+    }
+
+    @keyframes orbFloat {
+
+      0%,
+      100% {
+        transform:
+          translateZ(80px) translateY(0);
+      }
+
+      50% {
+        transform:
+          translateZ(80px) translateY(-13px);
+      }
+    }
+
+    @keyframes orbitSlow {
+      to {
+        transform:
+          translate(-50%, -50%) rotateX(66deg) rotateZ(352deg);
+      }
+    }
+
+    @keyframes orbitSlowReverse {
+      to {
+        transform:
+          translate(-50%, -50%) rotateX(66deg) rotateZ(-348deg);
+      }
+    }
+
+    @keyframes corePulse {
+
+      0%,
+      100% {
+        box-shadow:
+          0 0 25px rgba(200, 242, 56, .25);
+      }
+
+      50% {
+        box-shadow:
+          0 0 45px rgba(200, 242, 56, .55);
+      }
+    }
+
+    @keyframes stayFloat {
+
+      0%,
+      100% {
+        transform:
+          translateY(0) rotate(-2deg);
+      }
+
+      50% {
+        transform:
+          translateY(-5px) rotate(2deg);
+      }
+    }
+
+    @keyframes dotPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.25);
+      }
+    }
+
+    /* =========================================================
+       TABLET
+       ========================================================= */
+
+    @media (max-width: 1000px) {
+      .main-nav {
+        gap: 30px;
+      }
+
+      .hero {
+        grid-template-columns: 48% 52%;
+      }
+
+      .hero h1 {
+        font-size: clamp(60px, 8vw, 88px);
+      }
+
+      /*
+       * The restored Philosophy animation moves below the
+       * text at tablet width to prevent the 3D stage from
+       * being compressed into an unusable column.
+       */
+      .philosophy,
+      .projects {
+        grid-template-columns: 1fr;
+      }
+
+      .philosophy-stage {
+        min-height: 560px;
+      }
+
+      .section-copy {
+        padding-bottom: 40px;
+      }
+
+      .projects {
+        padding-top: 80px;
+      }
+
+      .projects-copy {
+        padding-bottom: 20px;
+      }
+
+      .project-orbit {
+        height: 620px;
+
+        --orbit-rx: 235px;
+        --orbit-ry: 170px;
+      }
+    }
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 850px) {
+      :root {
+        --header-height: 70px;
+      }
+
+      .site-header {
+        height: 70px;
+
+        padding: 0 20px;
+
+        grid-template-columns: 1fr auto auto;
+      }
+
+      .main-nav,
+      .contact-nav {
+        display: none !important;
+      }
+
+      .talk-button {
+        justify-self: end;
+
+        padding: 10px 14px;
+
+        margin-right: 10px;
+      }
+
+      .menu-toggle {
+        display: flex;
+
+        width: 35px;
+        height: 35px;
+
+        background: none;
+
+        border: 1px solid var(--line);
+
+        border-radius: 50%;
+
+        align-items: center;
+        justify-content: center;
+
+        flex-direction: column;
+
+        gap: 5px;
+
+        cursor: pointer;
+      }
+
+      .menu-toggle span {
+        width: 13px;
+        border-top: 1px solid #ddd;
+      }
+
+      .mobile-menu {
+        position: fixed;
+
+        display: flex;
+
+        visibility: hidden;
+
+        opacity: 0;
+
+        pointer-events: none;
+
+        inset: 70px 12px auto;
+
+        padding: 25px;
+
+        z-index: 39;
+
+        flex-direction: column;
+
+        gap: 19px;
+
+        border: 1px solid var(--line);
+
+        border-radius: 16px;
+
+        background: rgba(8, 10, 10, .97);
+
+        backdrop-filter: blur(20px);
+
+        transform: translateY(-10px);
+
+        transition: .3s;
+      }
+
+      .mobile-menu.open {
+        visibility: visible;
+
+        opacity: 1;
+
+        pointer-events: auto;
+
+        transform: none;
+      }
+
+      .mobile-menu>a {
+        font-size: 18px;
+      }
+
+      .mobile-menu>div {
+        display: flex;
+
+        gap: 18px;
+
+        padding-top: 15px;
+
+        border-top: 1px solid var(--line);
+
+        font-size: 12px;
+
+        color: #b8bcb6;
+      }
+
+      .section {
+        width: min(100% - 36px, var(--max));
+      }
+
+      .hero {
+        display: block;
+
+        width: 100%;
+
+        height: auto;
+
+        min-height: 0;
+
+        margin-top: var(--header-height);
+
+        padding: 0;
+
+        overflow: hidden;
+      }
+
+      .hero-copy {
+        height: auto;
+
+        padding: 55px 20px 35px 8px;
+      }
+
+      .hero h1 {
+        font-size: clamp(54px, 14vw, 78px);
+      }
+
+      .hero-visual {
+        height: 560px;
+
+        min-height: 0;
+
+        margin-top: 10px;
+      }
+
+      .hero-arc {
+        right: -5%;
+
+        width: 110%;
+
+        height: 100%;
+      }
+
+      .hero-dots {
+        right: 4%;
+
+        top: 42%;
+      }
+
+      .experience-card {
+        right: 0;
+
+        bottom: 12px;
+      }
+
+      /* Philosophy mobile/tablet positioning */
+      .philosophy-stage {
+        min-height: 500px;
+      }
+
+      .glass-stack {
+        left: 55%;
+
+        transform:
+          translate(-50%, -50%) scale(.82) rotateY(-10deg) rotateZ(-7deg);
+      }
+
+      .stage-label {
+        left: 2%;
+      }
+
+      .projects {
+        padding-top: 60px;
+      }
+
+      .project-orbit {
+        height: 570px;
+
+        --orbit-rx: 205px;
+        --orbit-ry: 155px;
+      }
+
+      .project-card {
+        width: 185px;
+        height: 135px;
+      }
+
+      .project-card img {
+        height: 75px;
+      }
+
+      .journal-card {
+        padding: 32px 25px;
+      }
+
+      .contact-panel {
+        grid-template-columns: 1fr;
+
+        padding: 35px 25px;
+
+        gap: 25px;
+      }
+
+      .connect-orb {
+        order: 2;
+      }
+
+      .contact-copy {
+        justify-self: start;
+
+        order: 3;
+      }
+
+      .stay-connected {
+        flex-wrap: wrap;
+      }
+
+      .social-links {
+        margin-left: 0;
+      }
+
+      .site-footer {
+        padding: 0 8px 20px;
+
+        flex-direction: column;
+
+        gap: 14px;
+      }
+
+      .footer-links {
+        gap: 18px;
+      }
+    }
+
+    /* =========================================================
+       SMALL MOBILE
+       ========================================================= */
+
+    @media (max-width: 500px) {
+      .hero-visual {
+        height: 470px;
+      }
+
+      .hero-person {
+        width: auto;
+
+        height: 100%;
+
+        max-width: 100%;
+
+        right: auto;
+      }
+
+      .hero-arc {
+        opacity: .8;
+      }
+
+      .hero h1 {
+        font-size: 54px;
+      }
+
+      .principles {
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+      }
+
+      .principle {
+        display: grid;
+
+        grid-template-columns: 30px 1fr;
+
+        column-gap: 8px;
+      }
+
+      .principle-icon {
+        grid-row: span 2;
+      }
+
+      .philosophy-stage {
+        min-height: 390px;
+      }
+
+      .glass-stack {
+        left: 58%;
+
+        transform:
+          translate(-50%, -50%) scale(.66) rotateY(-10deg) rotateZ(-7deg);
+      }
+
+      .stage-orbit-1 {
+        width: 450px;
+        height: 250px;
+      }
+
+      .stage-orbit-2 {
+        width: 360px;
+        height: 200px;
+      }
+
+      .stage-label {
+        font-size: 9px;
+      }
+
+      .stage-label::after {
+        width: 70px;
+      }
+
+      .projects-copy h2,
+      .section-copy h2 {
+        font-size: 40px;
+      }
+
+      .project-orbit {
+        height: 500px;
+
+        --orbit-rx: 150px;
+        --orbit-ry: 115px;
+      }
+
+      .project-card {
+        width: 150px;
+        height: 112px;
+        padding: 10px;
+      }
+
+      .project-card span {
+        font-size: 8px;
+      }
+
+      .project-card img {
+        height: 57px;
+
+        margin-top: 6px;
+      }
+
+      .r3 {
+        width: 390px;
+        height: 390px;
+      }
+
+      .r2 {
+        width: 285px;
+        height: 285px;
+      }
+
+      .r1 {
+        width: 185px;
+        height: 185px;
+      }
+
+      .orbit-core {
+        width: 120px;
+        height: 120px;
+      }
+
+      .orbit-core span {
+        width: 20px;
+        height: 20px;
+      }
+
+      .journal-card {
+        display: block;
+      }
+
+      .journal-card h2 {
+        font-size: 34px;
+      }
+
+      .journal-card .pill-button {
+        margin-top: 24px;
+      }
+
+      .contact-heading h2 {
+        font-size: 31px;
+      }
+
+      .stay-connected {
+        padding: 18px;
+      }
+
+      .social-links {
+        width: 100%;
+
+        justify-content: flex-start;
+      }
+
+      .modal-card {
+        padding: 32px 24px;
+      }
+    }
+
+    /* =========================================================
+       ACCESSIBILITY
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .reveal {
+        transition: none;
+      }
+
+      /*
+       * Disable every continuous animation, including the
+       * restored Philosophy animation, when the user has
+       * requested reduced motion at OS/browser level.
+       */
+      .impact-platform,
+      .impact-orb,
+      .orbit-core,
+      .stage-orbit,
+      .connect-orb,
+      .stay-visual img,
+      .talk-button i {
+        animation: none;
+      }
+
+      .project-card {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <!-- =======================================================
+       HEADER
+       ======================================================= -->
+
+  <header class="site-header" id="site-header">
+
+    <a class="brand" href="#home" aria-label="Home">
+      M<span>.</span>
+    </a>
+
+    <nav class="main-nav" id="main-nav" aria-label="Primary navigation">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="contact-nav" id="contact-nav" aria-label="Contact shortcuts">
+      <a href="#contact" data-email aria-label="Email">
+        <span class="contact-icon">@</span>
+        <span>Email</span>
+      </a>
+
+      <a href="#contact" target="_blank" rel="noopener" data-whatsapp aria-label="WhatsApp">
+        <span class="contact-icon">◔</span>
+        <span>WhatsApp</span>
+      </a>
+    </div>
+
+    <a class="talk-button" id="talk-button" href="#contact">
+      <span>Let's Talk</span>
+      <i></i>
+    </a>
+
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span>
+      <span></span>
+    </button>
+
+  </header>
+
+  <!-- =======================================================
+       MOBILE MENU
+       ======================================================= -->
+
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#journal">Journal</a>
+    <a href="#contact">Contact</a>
+
+    <div>
+      <a href="#contact" data-email>✉ Email</a>
+      <a href="#contact" target="_blank" rel="noopener" data-whatsapp>
+        ◔ WhatsApp
+      </a>
+    </div>
+
+  </div>
+
+  <main>
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <section class="hero section" id="home">
+
+      <div class="hero-copy reveal">
+
+        <p class="eyebrow">
+          I'M ABDUL MOHAIMEN
+        </p>
+
+        <h1>
+          Designing<br>
+          Digital<br>
+          <em>Experiences.</em>
+        </h1>
+
+        <p class="hero-description">
+          I create clean, meaningful and high-impact
+          <strong>digital experiences</strong>
+          that help brands connect with people.
+        </p>
+
+        <div class="hero-actions">
+
+          <a class="pill-button" href="#work">
+            View My Work
+            <span>↗</span>
+          </a>
+
+          <a class="text-link" href="#about">
+            About Me
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="hero-visual">
+
+        <div class="portrait-wrap">
+
+          <img class="hero-person" src="images/hero-visula.png" alt="Portrait of Abdul Mohaimen" width="1155"
+            height="1362" loading="eager" decoding="async" fetchpriority="high">
+
+        </div>
+
+        <svg class="hero-arc" viewBox="0 0 500 700" aria-hidden="true">
+
+          <defs>
+
+            <path id="heroTextPath" d="M 425 105 A 280 280 0 0 1 425 595" pathLength="1">
+            </path>
+
+          </defs>
+
+          <text>
+
+            <textPath href="#heroTextPath" startOffset="0">
+              THOUGHTFUL · STRATEGIC · IMPACTFUL ·
+            </textPath>
+
+          </text>
+
+        </svg>
+
+        <div class="hero-dots" aria-hidden="true">
+          <i class="active"></i>
+          <i></i>
+          <i></i>
+          <i></i>
+          <i></i>
+        </div>
+
+        <div class="experience-card">
+
+          <strong>3+</strong>
+
+          <span>
+            Months of Crafting<br>
+            Digital Solutions
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PHILOSOPHY
+         RESTORED 3D ANIMATION
+         ===================================================== -->
+
+    <section class="philosophy section" id="about">
+
+      <!-- ===================================================
+           PHILOSOPHY COPY
+           =================================================== -->
+
+      <div class="section-copy reveal">
+
+        <p class="eyebrow">
+          MY PHILOSOPHY
+        </p>
+
+        <h2>
+          Beyond visuals.<br>
+          <em>Towards impact.</em>
+        </h2>
+
+        <p>
+          Design is not just what it looks like and feels like.<br>
+          Design is how it works and the impact it makes.
+        </p>
+
+        <div class="principles">
+
+          <article class="principle">
+
+            <img class="philosophy-image" src="images/User_driven.png" alt="">
+
+            <div>
+
+              <h3>
+                User First
+              </h3>
+
+              <p>
+                I put people at the center of every decision.
+              </p>
+
+            </div>
+
+          </article>
+
+          <article class="principle">
+
+            <img class="philosophy-image" src="images/card4.png" alt="">
+
+            <div>
+
+              <h3>
+                Purpose Driven
+              </h3>
+
+              <p>
+                Every detail serves a bigger purpose.
+              </p>
+
+            </div>
+
+          </article>
+
+          <article class="principle">
+
+            <img class="philosophy-image" src="images/ChatGPT Image Aug 27, 2026, 06_28_01 AM.png" alt="">
+
+            <div>
+
+              <h3>
+                Clarity Always
+              </h3>
+
+              <p>
+                Simplicity is the ultimate sophistication.
+              </p>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           RESTORED ANIMATED PHILOSOPHY STAGE
+           =================================================== -->
+
+      <div class="philosophy-stage" aria-hidden="true">
+
+        <!-- Outer slow-moving orbital ring -->
+        <div class="stage-orbit stage-orbit-1"></div>
+
+        <!-- Inner reverse-moving orbital ring -->
+        <div class="stage-orbit stage-orbit-2"></div>
+
+
+        <!-- Stage labels -->
+
+        <div class="stage-label label-strategy">
+          Strategy
+        </div>
+
+        <div class="stage-label label-design">
+          Design
+        </div>
+
+        <div class="stage-label label-experience">
+          Experience
+        </div>
+
+        <div class="stage-label label-impact">
+          Impact
+        </div>
+
+
+        <!-- 3D glass composition -->
+
+        <div class="glass-stack">
+
+          <!-- Back layer -->
+          <div class="glass-panel panel-back"></div>
+
+          <!-- Middle layer -->
+          <div class="glass-panel panel-mid"></div>
+
+          <!-- Front layer -->
+          <div class="glass-panel panel-front"></div>
+
+
+          <!-- Floating impact platform -->
+
+          <div class="impact-platform">
+
+            <span></span>
+
+          </div>
+
+
+          <!-- Floating green impact orb -->
+
+          <div class="impact-orb"></div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROJECTS
+         ===================================================== -->
+
+    <section class="projects section" id="work">
+
+      <div class="projects-copy reveal">
+
+        <p class="eyebrow">
+          SELECTED WORK
+        </p>
+
+        <h2>
+          Projects<br>
+          <em>that matter.</em>
+        </h2>
+
+        <p>
+          A selection of work that solved real problems
+          and created measurable results.
+        </p>
+
+        <a class="text-link" href="#project-orbit">
+          Explore All Work
+          <span>↗</span>
+        </a>
+
+      </div>
+
+
+      <div class="project-orbit reveal reveal-delay-1" id="project-orbit"
+        aria-label="Interactive project orbit. Project cards continuously travel around the center in a 3D 360 degree orbit and pause while hovered.">
+
+        <div class="orbit-ring r1"></div>
+        <div class="orbit-ring r2"></div>
+        <div class="orbit-ring r3"></div>
+
+        <div class="orbit-track" aria-hidden="true">
+        </div>
+
+        <div class="orbit-core" aria-hidden="true">
+          <span></span>
+        </div>
+
+        <div class="project-orbit-cards">
+
+          <a class="project-card card-1" href="#" data-project data-project-id="fintrack" data-orbit-angle="225">
+
+            <span>
+              FinTrack<br>
+              <b>Dashboard</b>
+            </span>
+
+            <img src="images/card.png" alt="FinTrack dashboard" loading="lazy" decoding="async">
+
+          </a>
+
+
+          <a class="project-card card-2" href="#" data-project data-project-id="nimbus" data-orbit-angle="315">
+
+            <span>
+              Nimbus<br>
+              <b>Landing Page</b>
+            </span>
+
+            <img src="images/card5.png" alt="Nimbus landing page" loading="lazy" decoding="async">
+
+          </a>
+
+
+          <a class="project-card card-3" href="#" data-project data-project-id="mindful" data-orbit-angle="45">
+
+            <span>
+              Mindful<br>
+              <b>Wellness App</b>
+            </span>
+
+            <img src="images/card1.png" alt="Mindful wellness app" loading="lazy" decoding="async">
+
+          </a>
+
+
+          <a class="project-card card-4" href="#" data-project data-project-id="brandflow" data-orbit-angle="135">
+
+            <span>
+              BrandFlow<br>
+              <b>Design System</b>
+            </span>
+
+            <img src="images/card3.png" alt="BrandFlow design system" loading="lazy" decoding="async">
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         PROJECT HANDOFF
+         ===================================================== -->
+
+    <section class="project-handoff section" id="project-handoff" aria-label="Featured project transition">
+
+      <div class="project-handoff-inner" id="project-handoff-inner">
+
+        <div class="project-handoff-tag">
+          FEATURED WORK
+        </div>
+
+        <div class="project-handoff-media">
+
+          <img id="handoff-image" src="assets/project-fintrack.webp" alt="Featured project preview" loading="lazy"
+            decoding="async">
+
+        </div>
+
+        <div class="project-handoff-copy">
+
+          <h3 id="handoff-title">
+            FinTrack<br>
+            <em>Dashboard.</em>
+          </h3>
+
+          <p id="handoff-description">
+            A focused product experience designed to make
+            complex financial information easier to understand,
+            navigate and act on.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         JOURNAL
+         ===================================================== -->
+
+    <section class="journal section" id="journal">
+
+      <div class="journal-card reveal">
+
+        <div>
+
+          <p class="eyebrow">
+            JOURNAL
+          </p>
+
+          <h2>
+            Thoughts behind<br>
+            <em>the work.</em>
+          </h2>
+
+        </div>
+
+        <a class="pill-button" href="#contact">
+
+          Start a Conversation
+
+          <span>↗</span>
+
+        </a>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTACT
+         ===================================================== -->
+
+    <section class="contact section" id="contact">
+
+      <div class="contact-panel reveal">
+
+        <div class="contact-heading">
+
+          <p class="eyebrow">
+            LET'S CONNECT
+          </p>
+
+          <h2>
+            Have a project<br>
+            in mind?
+          </h2>
+
+          <em>
+            Let's build something great.
+          </em>
+
+        </div>
+
+        <div class="connect-orb" aria-hidden="true">
+        </div>
+
+        <div class="contact-copy">
+
+          <p>
+            I'm currently open to freelance opportunities
+            and creative collaborations.
+          </p>
+
+          <a class="pill-button" href="#contact" data-email>
+
+            Start a Conversation
+
+            <span>↗</span>
+
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="stay-connected reveal">
+
+        <div class="stay-visual">
+
+          <img src="images/footer.png" alt="Stay connected visual" loading="lazy" decoding="async">
+
+        </div>
+
+        <div>
+
+          <p class="eyebrow">
+            STAY CONNECTED
+          </p>
+
+          <strong>
+            Follow the work.<br>
+            Keep in touch.
+          </strong>
+
+        </div>
+
+        <div class="social-links">
+
+          <a href="#" aria-label="LinkedIn">
+            in
+          </a>
+
+          <a href="#" aria-label="X">
+            𝕏
+          </a>
+
+          <a href="#" aria-label="GitHub">
+            ●
+          </a>
+
+          <a href="#" data-email aria-label="Email">
+            @
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CLOSING WORD REVEAL
+         ===================================================== -->
+
+    <section class="footer-word-reveal" id="footer-word-reveal" aria-label="Closing statement">
+
+      <div class="footer-word-stack">
+
+        <span class="footer-word">
+          Let's
+        </span>
+
+        <span class="footer-word">
+          design
+        </span>
+
+        <span class="footer-word">
+          <em>shape</em>
+        </span>
+
+        <span class="footer-word">
+          elevate
+        </span>
+
+        <span class="footer-word footer-word-small">
+          incredible work together.
+        </span>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="site-footer">
+
+      <span>
+        ©
+        <span id="year"></span>
+        Abdul Mohaimen. All rights reserved.
+      </span>
+
+      <div class="footer-links">
+
+        <button data-modal="terms">
+          Terms of Service
+        </button>
+
+        <button data-modal="privacy">
+          Privacy Policy
+        </button>
+
+        <button class="theme-button" id="theme-button" aria-label="Toggle contrast">
+          ◐
+        </button>
+
+      </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         PROJECT MODAL
+         ===================================================== -->
+
+    <div class="project-modal" id="project-modal" aria-hidden="true">
+
+      <div class="project-modal-backdrop" data-close-project>
+      </div>
+
+      <article class="project-modal-card" role="dialog" aria-modal="true" aria-labelledby="project-modal-title">
+
+        <div class="project-modal-top">
+
+          <div>
+
+            <p class="eyebrow">
+              SELECTED PROJECT
+            </p>
+
+            <h2 id="project-modal-title">
+              FinTrack<br>
+              <em>Dashboard.</em>
+            </h2>
+
+          </div>
+
+          <button class="project-modal-close" data-close-project aria-label="Close project">
+            ×
+          </button>
+
+        </div>
+
+        <div class="project-detail-sheet">
+
+          <div class="project-detail-grid">
+
+            <img id="project-modal-image" src="assets/project-fintrack.webp" alt="FinTrack project preview"
+              loading="lazy" decoding="async">
+
+            <div>
+
+              <h3 id="project-modal-subtitle">
+                Product dashboard
+              </h3>
+
+              <p id="project-modal-description">
+                A focused digital experience for turning
+                complex financial information into clear,
+                useful decisions. The interface balances
+                hierarchy, speed and clarity.
+              </p>
+
+              <div class="project-detail-meta" id="project-modal-meta">
+
+                <span>UX / UI</span>
+                <span>Dashboard</span>
+                <span>Product Design</span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+
+    <!-- =====================================================
+         TERMS
+         ===================================================== -->
+
+    <div class="modal" id="terms-modal" role="dialog" aria-modal="true" aria-labelledby="terms-title" hidden>
+
+      <div class="modal-backdrop" data-close-modal>
+      </div>
+
+      <article class="modal-card">
+
+        <button class="modal-close" data-close-modal aria-label="Close terms">
+          ×
+        </button>
+
+        <p class="eyebrow">
+          LEGAL
+        </p>
+
+        <h2 id="terms-title">
+          Terms of Service
+        </h2>
+
+        <p>
+          By using this website, you agree to use it lawfully
+          and respectfully. Portfolio content, designs, copy,
+          images and project materials belong to their
+          respective owners and may not be reproduced without
+          permission.
+        </p>
+
+        <h3>
+          Contact requests
+        </h3>
+
+        <p>
+          Submitting an email or WhatsApp message does not
+          create a client relationship or guarantee availability.
+          Project scope, pricing, timelines and ownership are
+          agreed separately in writing.
+        </p>
+
+        <h3>
+          External links
+        </h3>
+
+        <p>
+          This site may link to third-party services. Their
+          availability and policies are outside the control
+          of this portfolio.
+        </p>
+
+        <p class="legal-note">
+          Last updated: August 2026. Replace this text with
+          your final legal terms before commercial launch.
+        </p>
+
+      </article>
+
+    </div>
+
+
+    <!-- =====================================================
+         PRIVACY
+         ===================================================== -->
+
+    <div class="modal" id="privacy-modal" role="dialog" aria-modal="true" aria-labelledby="privacy-title" hidden>
+
+      <div class="modal-backdrop" data-close-modal>
+      </div>
+
+      <article class="modal-card">
+
+        <button class="modal-close" data-close-modal aria-label="Close privacy policy">
+          ×
+        </button>
+
+        <p class="eyebrow">
+          LEGAL
+        </p>
+
+        <h2 id="privacy-title">
+          Privacy Policy
+        </h2>
+
+        <p>
+          This portfolio is designed to collect as little
+          information as possible. If you contact me by email
+          or WhatsApp, the information you voluntarily provide
+          may be used only to respond to your request and discuss
+          potential work.
+        </p>
+
+        <h3>
+          Analytics and cookies
+        </h3>
+
+        <p>
+          This version does not require analytics cookies.
+          If analytics, forms, newsletters or other tracking
+          are added later, this policy should be updated before
+          those features go live.
+        </p>
+
+        <h3>
+          Your choices
+        </h3>
+
+        <p>
+          You may request clarification about information you
+          have sent through a contact channel. Third-party
+          platforms may have their own privacy practices.
+        </p>
+
+        <p class="legal-note">
+          Last updated: August 2026. Replace this text with
+          your final policy and jurisdiction-specific
+          requirements before launch.
+        </p>
+
+      </article>
+
+    </div>
+
+  </main>
+
+
+  <!-- =======================================================
+       JAVASCRIPT
+       ======================================================= -->
+
+  <script>
+    'use strict';
+
+    /*
+     * =========================================================
+     * CONTACT CONFIGURATION
+     * =========================================================
+     *
+     * This static portfolio deliberately does not contain
+     * fabricated personal contact credentials.
+     *
+     * Replace these values with your real contact details
+     * before publishing.
+     */
+
+    const CONTACT = {
+      email: 'mujadidiemad@gmail.com',
+      whatsapp: '93780454631'
+    };
+
+    const emailSubject = encodeURIComponent(
+      'Portfolio project inquiry'
+    );
+
+    const emailBody = encodeURIComponent(
+      'Hello Abdul,\n\n' +
+      'I would like to discuss a project with you.\n\n'
+    );
+
+    const hasConfiguredEmail =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        CONTACT.email
+      );
+
+    const emailHref = () =>
+      hasConfiguredEmail
+        ? `mailto:${CONTACT.email}?subject=${emailSubject}&body=${emailBody}`
+        : '#contact';
+
+    const whatsappNumber =
+      String(CONTACT.whatsapp).replace(/\D/g, '');
+
+    const whatsappHref = () =>
+      whatsappNumber
+        ? `https://wa.me/${whatsappNumber}`
+        : '#contact';
+
+
+    /*
+     * =========================================================
+     * CONTACT LINK INITIALIZATION
+     * =========================================================
+     */
+
+    document
+      .querySelectorAll('[data-email]')
+      .forEach(element => {
+        element.href = emailHref();
+        element.dataset.contactEmail =
+          CONTACT.email;
+      });
+
+    document
+      .querySelectorAll('[data-whatsapp]')
+      .forEach(element => {
+        element.href = whatsappHref();
+      });
+
+
+    /*
+     * =========================================================
+     * CURRENT YEAR
+     * =========================================================
+     */
+
+    document.getElementById('year').textContent =
+      new Date().getFullYear();
+
+
+    /*
+     * =========================================================
+     * HEADER STATE
+     * =========================================================
+     */
+
+    const header =
+      document.getElementById('site-header');
+
+    const contactSection =
+      document.getElementById('contact');
+
+    const talkButton =
+      document.getElementById('talk-button');
+
+    function updateHeader() {
+      const atContact =
+        innerWidth > 850 &&
+        contactSection.getBoundingClientRect().top <
+        innerHeight * .52;
+
+      header.classList.toggle(
+        'scrolled',
+        scrollY > 20
+      );
+
+      header.classList.toggle(
+        'contact-mode',
+        atContact
+      );
+
+      talkButton.querySelector('span').textContent =
+        atContact
+          ? "Let's Chat"
+          : "Let's Talk";
+
+      talkButton.href =
+        atContact
+          ? emailHref()
+          : '#contact';
+    }
+
+    addEventListener(
+      'scroll',
+      updateHeader,
+      { passive: true }
+    );
+
+    addEventListener(
+      'resize',
+      updateHeader
+    );
+
+    updateHeader();
+
+
+    /*
+     * =========================================================
+     * MOBILE MENU
+     * =========================================================
+     */
+
+    const toggle =
+      document.querySelector('.menu-toggle');
+
+    const menu =
+      document.getElementById('mobile-menu');
+
+    toggle.addEventListener(
+      'click',
+      () => {
+        const open =
+          menu.classList.toggle('open');
+
+        toggle.setAttribute(
+          'aria-expanded',
+          String(open)
+        );
+
+        toggle.setAttribute(
+          'aria-label',
+          open
+            ? 'Close menu'
+            : 'Open menu'
+        );
+
+        menu.setAttribute(
+          'aria-hidden',
+          String(!open)
+        );
+      }
+    );
+
+    menu
+      .querySelectorAll('a')
+      .forEach(link => {
+        link.addEventListener(
+          'click',
+          () => {
+            menu.classList.remove('open');
+
+            toggle.setAttribute(
+              'aria-expanded',
+              'false'
+            );
+
+            toggle.setAttribute(
+              'aria-label',
+              'Open menu'
+            );
+
+            menu.setAttribute(
+              'aria-hidden',
+              'true'
+            );
+          }
+        );
+      });
+
+
+    /*
+     * =========================================================
+     * SECTION NAVIGATION TRANSITION
+     * =========================================================
+     *
+     * The curtain covers the current section, the browser
+     * jumps directly to the target, then the curtain exits.
+     * This prevents the normal visible scrolling motion.
+     */
+
+    let navTransitioning = false;
+
+    function navigateSection(targetId) {
+      const target =
+        document.getElementById(
+          targetId.replace('#', '')
+        );
+
+      if (!target || navTransitioning) {
+        return;
+      }
+
+      navTransitioning = true;
+
+      const headerHeight =
+        document.getElementById('site-header')
+          ?.offsetHeight || 0;
+
+      const targetY =
+        Math.max(
+          0,
+          target.getBoundingClientRect().top +
+          window.scrollY -
+          headerHeight
+        );
+
+      const curtain =
+        document.createElement('div');
+
+      curtain.className =
+        'section-transition-curtain';
+
+      document.body.appendChild(
+        curtain
+      );
+
+      requestAnimationFrame(
+        () => {
+          curtain.classList.add(
+            'is-entering'
+          );
+        }
+      );
+
+      setTimeout(
+        () => {
+          window.scrollTo({
+            top: targetY,
+            behavior: 'auto'
+          });
+
+          curtain.classList.remove(
+            'is-entering'
+          );
+
+          curtain.classList.add(
+            'is-leaving'
+          );
+
+          setTimeout(
+            () => {
+              curtain.remove();
+
+              navTransitioning = false;
+
+              updateHeader();
+            },
+            650
+          );
+        },
+        520
+      );
+    }
+
+    document
+      .querySelectorAll('a[href^="#"]')
+      .forEach(link => {
+        link.addEventListener(
+          'click',
+          event => {
+            const href =
+              link.getAttribute('href');
+
+            if (
+              !href ||
+              href === '#' ||
+              link.hasAttribute('data-project')
+            ) {
+              return;
+            }
+
+            event.preventDefault();
+
+            navigateSection(href);
+          }
+        );
+      });
+
+
+    /*
+     * =========================================================
+     * REVEAL OBSERVER
+     * =========================================================
+     */
+
+    const observer =
+      new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add(
+                'is-visible'
+              );
+
+              observer.unobserve(
+                entry.target
+              );
+            }
+          });
+        },
+        {
+          threshold: .12
+        }
+      );
+
+    document
+      .querySelectorAll('.reveal')
+      .forEach(element => {
+        observer.observe(element);
+      });
+
+
+    /*
+     * =========================================================
+     * MOTION PREFERENCES
+     * =========================================================
+     */
+
+    const reduced =
+      matchMedia(
+        '(prefers-reduced-motion:reduce)'
+      ).matches;
+
+
+    /*
+     * =========================================================
+     * CURSOR + PROJECT ORBIT
+     * =========================================================
+     */
+
+    if (
+      matchMedia('(pointer:fine)').matches &&
+      !reduced
+    ) {
+      const glow =
+        document.querySelector('.cursor-glow');
+
+      addEventListener(
+        'pointermove',
+        event => {
+          glow.style.opacity = '1';
+          glow.style.left =
+            event.clientX + 'px';
+          glow.style.top =
+            event.clientY + 'px';
+        }
+      );
+
+
+      const orbit =
+        document.getElementById(
+          'project-orbit'
+        );
+
+      const orbitCards =
+        [...orbit.querySelectorAll(
+          '.project-card'
+        )];
+
+      let orbitAngle = 0;
+
+      let orbitFrame = null;
+
+      let orbitLastTime =
+        performance.now();
+
+      let orbitPaused = false;
+
+      /*
+       * Ten seconds represents one complete
+       * 360-degree revolution.
+       */
+      const orbitDuration = 10000;
+
+      const orbitRadiansPerMs =
+        (Math.PI * 2) /
+        orbitDuration;
+
+
+      function renderProjectOrbit() {
+        const computedStyle =
+          getComputedStyle(orbit);
+
+        const rx =
+          parseFloat(
+            computedStyle.getPropertyValue(
+              '--orbit-rx'
+            )
+          ) || 275;
+
+        const ry =
+          parseFloat(
+            computedStyle.getPropertyValue(
+              '--orbit-ry'
+            )
+          ) || 190;
+
+
+        orbitCards.forEach(card => {
+          const base =
+            (parseFloat(
+              card.dataset.orbitAngle
+            ) || 0) *
+            Math.PI /
+            180;
+
+          const angle =
+            base + orbitAngle;
+
+          const x =
+            Math.cos(angle) * rx;
+
+          const y =
+            Math.sin(angle) * ry;
+
+          const depth =
+            (Math.sin(angle) + 1) / 2;
+
+          const z =
+            (depth - .5) * 180;
+
+          const scale =
+            .78 + depth * .22;
+
+          const rotate =
+            Math.cos(angle) * 5;
+
+          card.style.transform =
+            `translate3d(
+              calc(-50% + ${x}px),
+              calc(-50% + ${y}px),
+              ${z}px
+            )
+            rotateZ(${rotate}deg)
+            scale(${scale})`;
+
+          card.style.zIndex =
+            String(
+              5 +
+              Math.round(depth * 20)
+            );
+
+          card.classList.toggle(
+            'is-front',
+            depth > .72
+          );
+
+          card.classList.toggle(
+            'is-back',
+            depth < .28
+          );
+        });
+      }
+
+
+      function orbitAnimate(time) {
+        const dt =
+          Math.min(
+            Math.max(
+              time - orbitLastTime,
+              0
+            ),
+            40
+          );
+
+        orbitLastTime = time;
+
+        if (!orbitPaused) {
+          orbitAngle =
+            (
+              orbitAngle +
+              dt *
+              orbitRadiansPerMs
+            ) %
+            (Math.PI * 2);
+
+          renderProjectOrbit();
+        }
+
+        orbitFrame =
+          requestAnimationFrame(
+            orbitAnimate
+          );
+      }
+
+
+      renderProjectOrbit();
+
+      orbitFrame =
+        requestAnimationFrame(
+          orbitAnimate
+        );
+
+
+      orbit.addEventListener(
+        'pointerenter',
+        () => {
+          orbitPaused = true;
+
+          orbit.classList.add(
+            'is-hovered'
+          );
+        }
+      );
+
+
+      orbit.addEventListener(
+        'pointerleave',
+        () => {
+          orbitPaused = false;
+
+          orbit.classList.remove(
+            'is-hovered'
+          );
+
+          orbitLastTime =
+            performance.now();
+        }
+      );
+    }
+
+
+    /*
+     * =========================================================
+     * TERMS / PRIVACY MODALS
+     * =========================================================
+     */
+
+    const modals = {
+      terms:
+        document.getElementById(
+          'terms-modal'
+        ),
+
+      privacy:
+        document.getElementById(
+          'privacy-modal'
+        )
+    };
+
+    let lastFocused = null;
+
+
+    function openModal(name) {
+      const modal =
+        modals[name];
+
+      if (!modal) {
+        return;
+      }
+
+      lastFocused =
+        document.activeElement;
+
+      modal.hidden = false;
+
+      document.body.classList.add(
+        'modal-open'
+      );
+
+      modal
+        .querySelector('.modal-close')
+        .focus();
+    }
+
+
+    function closeModal(modal) {
+      modal.hidden = true;
+
+      document.body.classList.remove(
+        'modal-open'
+      );
+
+      if (lastFocused) {
+        lastFocused.focus();
+      }
+    }
+
+
+    document
+      .querySelectorAll('[data-modal]')
+      .forEach(button => {
+        button.addEventListener(
+          'click',
+          () => {
+            openModal(
+              button.dataset.modal
+            );
+          }
+        );
+      });
+
+
+    document
+      .querySelectorAll('[data-close-modal]')
+      .forEach(button => {
+        button.addEventListener(
+          'click',
+          () => {
+            closeModal(
+              button.closest('.modal')
+            );
+          }
+        );
+      });
+
+
+    addEventListener(
+      'keydown',
+      event => {
+        if (event.key !== 'Escape') {
+          return;
+        }
+
+        Object.values(modals)
+          .forEach(modal => {
+            if (!modal.hidden) {
+              closeModal(modal);
+            }
+          });
+      }
+    );
+
+
+    /*
+     * =========================================================
+     * PROJECT DATA
+     * =========================================================
+     */
+
+    const projectModal =
+      document.getElementById(
+        'project-modal'
+      );
+
+
+    const projectData = {
+      fintrack: {
+        title: 'FinTrack',
+        em: 'Dashboard.',
+        subtitle: 'Product dashboard',
+
+        description:
+          'A focused digital experience for turning complex financial information into clear, useful decisions. The interface balances hierarchy, speed and clarity.',
+
+        meta: [
+          'UX / UI',
+          'Dashboard',
+          'Product Design'
+        ]
+      },
+
+      nimbus: {
+        title: 'Nimbus',
+        em: 'Landing Page.',
+        subtitle: 'Conversion-focused website',
+
+        description:
+          'A clear, conversion-focused landing experience with stronger visual hierarchy and a focused path to action.',
+
+        meta: [
+          'Web Design',
+          'Landing Page',
+          'Conversion'
+        ]
+      },
+
+      mindful: {
+        title: 'Mindful',
+        em: 'Wellness App.',
+        subtitle: 'Mobile product experience',
+
+        description:
+          'A calm, approachable product interface that reduces friction and keeps important actions easy to understand.',
+
+        meta: [
+          'UX / UI',
+          'Mobile',
+          'Product Design'
+        ]
+      },
+
+      brandflow: {
+        title: 'BrandFlow',
+        em: 'Design System.',
+        subtitle: 'Scalable design system',
+
+        description:
+          'A reusable visual system that brings consistency to product interfaces while giving teams room to move quickly.',
+
+        meta: [
+          'Design System',
+          'UI',
+          'Components'
+        ]
+      }
+    };
+
+
+    /*
+     * =========================================================
+     * PROJECT MODAL OPEN
+     * =========================================================
+     */
+
+    function openProject(card) {
+      if (!card || !projectModal) {
+        return;
+      }
+
+      const projectId =
+        card.dataset.projectId;
+
+      const project =
+        projectData[projectId];
+
+      if (!project) {
+        console.warn(
+          'Unknown project card:',
+          projectId,
+          card
+        );
+
+        return;
+      }
+
+
+      document
+        .getElementById(
+          'project-modal-title'
+        )
+        .innerHTML =
+        `${project.title}<br>
+           <em>${project.em}</em>`;
+
+
+      const cardImage =
+        card.querySelector(
+          ':scope > img'
+        );
+
+      const cardImageSrc =
+        cardImage?.getAttribute(
+          'src'
+        ) || '';
+
+      const modalImage =
+        document.getElementById(
+          'project-modal-image'
+        );
+
+
+      if (modalImage) {
+        modalImage.style.opacity = '0';
+
+
+        if (cardImageSrc) {
+          const preloadedImage =
+            new Image();
+
+
+          preloadedImage.onload =
+            () => {
+              modalImage.src =
+                cardImageSrc;
+
+              modalImage.alt =
+                `${project.title} project preview`;
+
+              requestAnimationFrame(
+                () => {
+                  modalImage.style.opacity =
+                    '1';
+                }
+              );
+            };
+
+
+          preloadedImage.onerror =
+            () => {
+              console.warn(
+                'Unable to load clicked card image:',
+                cardImageSrc
+              );
+
+              modalImage.src =
+                cardImageSrc;
+
+              modalImage.alt =
+                `${project.title} project preview`;
+
+              modalImage.style.opacity =
+                '1';
+            };
+
+
+          preloadedImage.src =
+            cardImageSrc;
+
+        } else {
+          modalImage.removeAttribute(
+            'src'
+          );
+
+          modalImage.alt =
+            `${project.title} project preview`;
+
+          modalImage.style.opacity =
+            '1';
+        }
+      }
+
+
+      document
+        .getElementById(
+          'project-modal-subtitle'
+        )
+        .textContent =
+        project.subtitle;
+
+
+      document
+        .getElementById(
+          'project-modal-description'
+        )
+        .textContent =
+        project.description;
+
+
+      document
+        .getElementById(
+          'project-modal-meta'
+        )
+        .innerHTML =
+        project.meta
+          .map(
+            item =>
+              `<span>${item}</span>`
+          )
+          .join('');
+
+
+      projectModal.classList.add(
+        'open'
+      );
+
+      projectModal.setAttribute(
+        'aria-hidden',
+        'false'
+      );
+
+      document.body.classList.add(
+        'modal-open'
+      );
+    }
+
+
+    function closeProject() {
+      projectModal.classList.remove(
+        'open'
+      );
+
+      projectModal.setAttribute(
+        'aria-hidden',
+        'true'
+      );
+
+      document.body.classList.remove(
+        'modal-open'
+      );
+    }
+
+
+    document
+      .querySelectorAll('[data-project]')
+      .forEach(card => {
+        card.addEventListener(
+          'click',
+          event => {
+            event.preventDefault();
+
+            openProject(card);
+          }
+        );
+      });
+
+
+    document
+      .querySelectorAll('[data-close-project]')
+      .forEach(element => {
+        element.addEventListener(
+          'click',
+          closeProject
+        );
+      });
+
+
+    addEventListener(
+      'keydown',
+      event => {
+        if (
+          event.key === 'Escape' &&
+          projectModal.classList.contains(
+            'open'
+          )
+        ) {
+          closeProject();
+        }
+      }
+    );
+
+
+    /*
+     * =========================================================
+     * PROJECT HANDOFF
+     * =========================================================
+     */
+
+    const handoff =
+      document.getElementById(
+        'project-handoff'
+      );
+
+    const handoffImage =
+      document.getElementById(
+        'handoff-image'
+      );
+
+    const handoffTitle =
+      document.getElementById(
+        'handoff-title'
+      );
+
+    const handoffDescription =
+      document.getElementById(
+        'handoff-description'
+      );
+
+
+    const handoffData = [
+      [
+        'assets/project-fintrack.webp',
+        'FinTrack',
+        'Dashboard.',
+        'A focused product experience designed to make complex financial information easier to understand, navigate and act on.'
+      ],
+
+      [
+        'assets/project-nimbus.webp',
+        'Nimbus',
+        'Landing Page.',
+        'A clear, conversion-focused landing experience with a stronger visual hierarchy and path to action.'
+      ],
+
+      [
+        'assets/project-landing.webp',
+        'Mindful',
+        'Wellness App.',
+        'A calm mobile interface designed around clarity, accessibility and effortless daily use.'
+      ],
+
+      [
+        'assets/project-brandflow.webp',
+        'BrandFlow',
+        'Design System.',
+        'A scalable visual system that keeps interfaces consistent while helping teams design faster.'
+      ]
+    ];
+
+
+    let lastHandoffIndex = -1;
+
+
+    function updateHandoff() {
+      if (!handoff) {
+        return;
+      }
+
+      const rect =
+        handoff.getBoundingClientRect();
+
+      const progress =
+        Math.min(
+          1,
+          Math.max(
+            0,
+            (
+              innerHeight -
+              rect.top
+            ) /
+            (
+              innerHeight +
+              rect.height * .25
+            )
+          )
+        );
+
+
+      const index =
+        Math.min(
+          handoffData.length - 1,
+          Math.floor(
+            progress *
+            handoffData.length
+          )
+        );
+
+
+      if (
+        index !==
+        lastHandoffIndex
+      ) {
+        const project =
+          handoffData[index];
+
+        handoffImage.src =
+          project[0];
+
+        handoffTitle.innerHTML =
+          `${project[1]}<br>
+           <em>${project[2]}</em>`;
+
+        handoffDescription.textContent =
+          project[3];
+
+        lastHandoffIndex =
+          index;
+      }
+
+
+      handoff.style.setProperty(
+        '--handoff-progress',
+        progress
+      );
+    }
+
+
+    addEventListener(
+      'scroll',
+      updateHandoff,
+      { passive: true }
+    );
+
+    updateHandoff();
+
+
+    /*
+     * =========================================================
+     * FOOTER WORD REVEAL
+     * =========================================================
+     */
+
+    const footerReveal =
+      document.getElementById(
+        'footer-word-reveal'
+      );
+
+
+    const footerObserver =
+      new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add(
+                'is-visible'
+              );
+            }
+          });
+        },
+        {
+          threshold: .28
+        }
+      );
+
+
+    if (footerReveal) {
+      footerObserver.observe(
+        footerReveal
+      );
+    }
+
+
+    /*
+     * =========================================================
+     * CONTRAST TOGGLE
+     * =========================================================
+     */
+
+    document
+      .getElementById('theme-button')
+      .addEventListener(
+        'click',
+        () => {
+          document.body.classList.toggle(
+            'high-contrast'
+          );
+        }
+      );
+  </script>
+
+</body>
+
+</html>
